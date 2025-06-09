@@ -16,11 +16,18 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const MarketLazyImport = createFileRoute('/market')()
 const ContactoLazyImport = createFileRoute('/contacto')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const MarketLazyRoute = MarketLazyImport.update({
+  id: '/market',
+  path: '/market',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/market.lazy').then((d) => d.Route))
 
 const ContactoLazyRoute = ContactoLazyImport.update({
   id: '/contacto',
@@ -65,6 +72,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactoLazyImport
       parentRoute: typeof rootRoute
     }
+    '/market': {
+      id: '/market'
+      path: '/market'
+      fullPath: '/market'
+      preLoaderRoute: typeof MarketLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -74,12 +88,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/contacto': typeof ContactoLazyRoute
+  '/market': typeof MarketLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/contacto': typeof ContactoLazyRoute
+  '/market': typeof MarketLazyRoute
 }
 
 export interface FileRoutesById {
@@ -87,14 +103,15 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/contacto': typeof ContactoLazyRoute
+  '/market': typeof MarketLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contacto'
+  fullPaths: '/' | '/about' | '/contacto' | '/market'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contacto'
-  id: '__root__' | '/' | '/about' | '/contacto'
+  to: '/' | '/about' | '/contacto' | '/market'
+  id: '__root__' | '/' | '/about' | '/contacto' | '/market'
   fileRoutesById: FileRoutesById
 }
 
@@ -102,12 +119,14 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AboutLazyRoute: typeof AboutLazyRoute
   ContactoLazyRoute: typeof ContactoLazyRoute
+  MarketLazyRoute: typeof MarketLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AboutLazyRoute: AboutLazyRoute,
   ContactoLazyRoute: ContactoLazyRoute,
+  MarketLazyRoute: MarketLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -122,7 +141,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/contacto"
+        "/contacto",
+        "/market"
       ]
     },
     "/": {
@@ -133,6 +153,9 @@ export const routeTree = rootRoute
     },
     "/contacto": {
       "filePath": "contacto.lazy.tsx"
+    },
+    "/market": {
+      "filePath": "market.lazy.tsx"
     }
   }
 }
