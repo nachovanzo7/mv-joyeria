@@ -1,35 +1,96 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { Slider } from "@/components/ui/slider"
+// routes/market.lazy.tsx - Enhanced with cache strategies
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { useEffect, useCallback } from "react";
+import { useProductData } from "@/hooks/useProductData";
+import { LoadingState } from "@/components/market/LoadingState";  
+import { ErrorState } from "@/components/market/ErrorState";
+import { EmptyState } from "@/components/market/EmptyState";
+import { ProductGrid } from "@/components/market/ProductGrid";
+import { Producto, CacheStrategy } from "@/types/product.types";
 
-export const Route = createLazyFileRoute('/market')({
-  component: RouteComponent,
-})
+export const Route = createLazyFileRoute("/market")({
+  component: MarketPage,
+});
 
-function RouteComponent() {
+function MarketPage() {
+  const {
+    productos,
+    loading,
+    error,
+    isFromCache,
+    isStale,
+    lastUpdated,
+    cargarProductos,
+    refreshData,
+    forceRefresh,
+    clearCache,
+    setImageErrors
+  } = useProductData({
+    strategy: CacheStrategy.ETAG, // Cambia según tus necesidades
+    cacheDuration: 5 * 60 * 1000, // 5 minutos
+    autoRefresh: true,
+    refreshInterval: 60000 // 1 minuto
+  });
+
+  useEffect(() => {
+    cargarProductos();
+  }, [cargarProductos]);
+
+  const handleComprar = useCallback((producto: Producto) => {
+    console.log("Comprar producto:", producto);
+    // Después de una acción que modifica datos, podrías forzar refresh
+    // setTimeout(() => forceRefresh(), 1000);
+  }, []);
+
+  const handleAgregarCarrito = useCallback((producto: Producto) => {
+    console.log("Agregar al carrito:", producto);
+  }, []);
+
+  const handleImageError = useCallback((productId: number) => {
+    setImageErrors(prev => new Set([...prev, productId]));
+  }, [setImageErrors]);
+
+  // Render loading state
+  if (loading) {
+    return <LoadingState isFromCache={isFromCache} />;
+  }
+
+  // Render error state
+  if (error) {
+    return (
+      <ErrorState 
+        error={error} 
+        onRetry={refreshData} 
+        onClearCache={clearCache}
+        onForceRefresh={forceRefresh}
+        isStale={isStale}
+      />
+    );
+  }
+
+  // Render empty state
+  if (productos.length === 0) {
+    return (
+      <EmptyState 
+        onRefresh={refreshData} 
+        onClearCache={clearCache} 
+        onForceRefresh={forceRefresh}
+      />
+    );
+  }
+
+  // Render main content
   return (
-    <div className='h-screen'>
-      <div className='grid grid-cols-[1fr_3fr] h-full'>
-
-        {/* Filtros */}
-        <section className='flex h-3/5 flex-col self-center items-center gap-6 bg-amber-50 p-10 border-2 border-black rounded-3xl'>
-          <h1 className='text-2xl'>Filtros</h1>
-          <div>
-            <h2 className='p-2'>Precio</h2>
-            <Slider
-              defaultValue={[33]}
-              max={100}
-              step={10}
-              min={32}
-              className="w-64"
-            />
-          </div>
-        </section>
-
-        <section className='flex justify-center items-center p-36'>
-          sadsadsad
-        </section>
-
+    <div className="min-h-screen bg-gray-50">
+      
+      <div className="container mx-auto px-4 py-8">
+        <ProductGrid
+          productos={productos}
+          onComprar={handleComprar}
+          onAgregarCarrito={handleAgregarCarrito}
+          onImageError={handleImageError}
+        />
       </div>
     </div>
-  )
+  );
 }
