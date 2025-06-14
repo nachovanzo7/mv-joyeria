@@ -1,4 +1,4 @@
-// types/product.types.ts - Enhanced with cache metadata
+// types/product.types.ts
 export type Producto = {
   id: number;
   nombre: string;
@@ -31,11 +31,12 @@ export interface ProductState {
   lastUpdated?: Date;
 }
 
-// Configuración de estrategias de caché
-export enum CacheStrategy {
-  TIME_BASED = 'time_based',           // Basado en tiempo (actual)
-  ETAG = 'etag',                       // Basado en ETag
-  POLLING = 'polling',                 // Polling periódico
-  MANUAL_REFRESH = 'manual_refresh',   // Solo refresh manual
-  VERSION_BASED = 'version_based'      // Basado en versión de API
-}
+export const CacheStrategy = {
+  TIME_BASED: 'time_based',
+  ETAG: 'etag',
+  POLLING: 'polling',
+  MANUAL_REFRESH: 'manual_refresh',
+  VERSION_BASED: 'version_based',
+} as const;
+
+export type CacheStrategy = typeof CacheStrategy[keyof typeof CacheStrategy];

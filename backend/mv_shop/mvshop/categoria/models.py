@@ -4,7 +4,7 @@ class Categoria(models.Model):
     TIPOS_CATEGORIAS = [
         ('colgante', 'Colgante'),
         ('pulsera', 'Pulsera'),
-        ('collar', 'Collar'),
+        ('colgante', 'Colgante'),
         ('anillo', 'Anillo'),
         ('arete', 'Arete'),
     ]

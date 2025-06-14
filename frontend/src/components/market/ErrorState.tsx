@@ -4,6 +4,8 @@ interface ErrorStateProps {
   error: string;
   onRetry: () => void;
   onClearCache: () => void;
+  onForceRefresh?: () => void;
+  isStale?:  boolean;
 }
 
 export function ErrorState({ error, onRetry }: ErrorStateProps) {

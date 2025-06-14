@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 interface EmptyStateProps {
   onRefresh: () => void;
   onClearCache: () => void;
+  onForceRefresh?: () => void;
 }
 
-export function EmptyState({ onRefresh, onClearCache }: EmptyStateProps) {
+export function EmptyState({ onRefresh }: EmptyStateProps) {
   return (
     <div className="min-h-screen flex items-center justify-center">  
       <div className="text-center">
