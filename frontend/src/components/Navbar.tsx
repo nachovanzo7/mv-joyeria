@@ -32,6 +32,15 @@ export default function Navbar() {
           <Button variant="outline"><a href="/market">Tienda</a></Button>
           <Button variant="outline"><a href="/contacto">Contacto</a></Button>
         </div>
+
+        <div className="">
+        <button
+  onClick={() => setCartOpen(true)}
+  className="fixed bottom-4 right-4 z-50 bg-white border-2 rounded-full p-3 shadow-md md:hidden"
+>
+  <img src={Cart} alt="Carrito" className="h-8 w-8" />
+</button>
+        </div>
       </div>
 
       <div className="h-28 md:h-16" />

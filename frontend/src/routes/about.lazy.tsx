@@ -1,33 +1,53 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
-import Imagen from '../assets/image.png'
+import { createLazyFileRoute } from "@tanstack/react-router";
+import Imagen from "../assets/foto.jpg";
 
-export const Route = createLazyFileRoute('/about')({
+export const Route = createLazyFileRoute("/about")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
     <div>
       {/*Texto de Inicio*/}
       <div className="flex flex-col md:h-96 h-60  justify-center items-center">
-
-        <p className="text-amber-950 md:text-7xl text-3xl">Texto o frase principal</p>
+        <p className="text-amber-950 md:text-7xl text-3xl text-center pt-7 ">
+          Cuidando lo afectivo ante todo
+        </p>
         <br></br>
-        <p className="text-amber-800 md:text-4xl text-2xl mt-1">Texto secundario</p>
+        <p className="text-amber-800 md:text-4xl text-2xl mt-1 text-center p-6 pt-0">
+          Joyería artesanal con historia, oficio y corazón.
+        </p>
       </div>
 
       {/*Contenido para el About*/}
       <div className="md:grid md:grid-cols-2 flex flex-col h-screen">
-
-        <div className='flex  justify-center items-center'>
-          <div className='max-w-3xl'>
-            <img className='rounded-4xl border' src={Imagen} alt="Marcelo Vanzo" />
+        <div className="flex justify-center items-center">
+          <div className="max-w-3xl m-5 mt-0 mb-0">
+            <img
+              className="rounded-4xl border shadow-2xl shadow-black"
+              src={Imagen}
+              alt="Marcelo Vanzo"
+            />
           </div>
         </div>
 
-        <div className='flex p-10 justify-center items-center flex-col'>
-          <h1 className='md:text-4xl text-2xl pb-3.5'><strong>Acerca de Mi</strong></h1>
-          <p className='md:text-left text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas provident odio omnis quam magnam quisquam similique blanditiis eum iure, totam, officiis soluta perferendis doloribus, facere ipsam. Sapiente fuga, accusamus dolorem perspiciatis tempora ullam voluptates placeat itaque asperiores error odit unde cupiditate quo eveniet dignissimos, in a vero, nostrum nulla dolores blanditiis ratione! Repellat doloribus voluptates eos laudantium commodi modi iste aut perspiciatis asperiores rem. Soluta officiis veniam reprehenderit quae rem saepe sequi in odit sed eum consectetur omnis, tempore, nam consequatur suscipit quam inventore deserunt, debitis necessitatibus. Nihil cumque eos expedita ad inventore odio, ullam velit nisi, impedit consequuntur exercitationem sapiente dignissimos atque dicta ipsum voluptatem repellat necessitatibus et aspernatur. Dolore libero possimus beatae distinctio recusandae deleniti ad ea atque, quam officiis alias assumenda rem iure est in architecto numquam sapiente natus nostrum, expedita, odit explicabo. A laudantium consequatur vero voluptatem qui pariatur unde dolorum, exercitationem quo, eum accusamus vitae molestias ipsam libero error aliquid mollitia, voluptate autem provident! Beatae tenetur enim, praesentium odio totam aliquam aspernatur ad? At tempore asperiores adipisci et excepturi distinctio, quas eos voluptates dolores obcaecati provident hic maxime nam sit doloremque dignissimos est blanditiis recusandae molestiae similique assumenda officiis, laudantium alias. Ea sequi atque recusandae!</p>
+        <div className="flex p-10 justify-center items-left flex-col">
+          <h1 className="flex md:text-4xl text-2xl pb-3.5 md:justify-start justify-center">
+            <strong>¿Quién soy?</strong>
+          </h1>
+          <p className="md:text-left text-justify md:text-2xl  md:pr-32">
+            Soy Marcelo Vanzo. Desde hace más de 30 años, trabajo cada pieza
+            como un legado. En nuestro taller, la joyería no es solo orfebrería:
+            es arte, vínculo y emoción. Cada anillo, collar o diseño a medida
+            nace del encuentro entre lo que el cliente imagina y lo que nuestras
+            manos transforman en símbolo. Creemos que las joyas deben hablar de
+            lo que importa: un amor, un recuerdo, un gesto. Por eso, cuidamos
+            cada detalle con la sensibilidad de quien sabe que lo más valioso no
+            es el metal, sino el significado que lleva dentro.
+          </p>
+          
+
+
         </div>
       </div>
     </div>

@@ -1,6 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+import mercadopago
+import os
 
 @api_view(["POST"])
 def create_preference(request):
@@ -20,10 +22,9 @@ def create_preference(request):
                 for item in items
             ]
         }
-
-        import mercadopago
-        import os
-        sdk = mercadopago.SDK(os.getenv("MP_ACCESS_TOKEN"))
+        key = os.getenv('MP_ACCESS_TOKEN')
+        print(key)
+        sdk = mercadopago.SDK(key)
         preference_response = sdk.preference().create(preference_data)
         preference = preference_response["response"]
 

@@ -1,6 +1,7 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import NavBar from '../components/Navbar.tsx'
+import Footer from '../components/Footer.tsx'
 
 export const Route = createRootRoute({
   component: () => (
@@ -13,6 +14,10 @@ export const Route = createRootRoute({
       <hr />
       <div className=" w-screen font-libre bg-white overflow-x-hidden">
         <Outlet/>
+      </div>
+
+      <div>
+        <Footer></Footer>
       </div>
       <TanStackRouterDevtools />
     </>
