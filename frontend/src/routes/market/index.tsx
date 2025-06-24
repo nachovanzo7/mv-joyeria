@@ -1,5 +1,5 @@
 // routes/market._layout.tsx
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
 import { useCallback, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -10,6 +10,7 @@ import { EmptyState } from "@/components/market/EmptyState";
 import { ProductGrid } from "@/components/market/ProductGrid";
 import type { Producto } from "@/types/product.types";
 import { ImagePreloader } from '@/utils/image-preloader';
+import Tienda from '@/assets/tienda.webp'
 
 export const Route = createFileRoute("/market/")({
   path: '',
@@ -27,6 +28,7 @@ function MarketPage() {
   } = useProductData();
 
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     if (productos.length > 0) {
@@ -45,6 +47,14 @@ function MarketPage() {
   const handleImageError = useCallback((productId: number) => {
     console.warn(`Error cargando imagen del producto ${productId}`);
   }, []);
+
+  /*Me ayuda a precargar los datos al hacer hover*/
+  const handleHover = useCallback((productId: number) => {
+    router.load({
+      to: "/market/$productoId",
+      params: { productoId: productId.toString() },
+    });
+  }, [router]);
 
   if (isLoading) return <LoadingState isFromCache={false} />;
 
@@ -70,12 +80,20 @@ function MarketPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
+      <div className="w-full h-min-[500px] border-t-2 border-b-2 mt-10 mb-10">
+        <img 
+          src={Tienda} 
+          alt="Tienda" 
+          className="w-full object-cover"
+        />
+      </div>
       <div className="container mx-auto px-4 py-8">
         <ProductGrid
           productos={productos}
           onComprar={handleComprar}
           onAgregarCarrito={handleAgregarCarrito}
           onImageError={handleImageError}
+          onHover={handleHover}
         />
       </div>
     </div>

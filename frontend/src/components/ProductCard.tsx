@@ -1,13 +1,14 @@
 import React, { memo, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "react-use-cart";
+import { useRouter } from "@tanstack/react-router";
 
-/* ——— Tipo que ya tenías ——— */
+
 type Producto = {
   id: number;
   nombre: string;
   descripcion: string;
-  precio: string;   // ← si pudieras cambiarlo a number mejor; abajo lo parseamos
+  precio: string; 
   imagen: string;
   disponible: boolean;
   categorias: { id: number; nombre: string; slug: string }[];
@@ -30,13 +31,12 @@ const ProductCard = memo(
     priority = false,
     loading = "lazy",
   }: ProductCardProps) => {
-    /* 🚀 Hook del carrito */
     const { addItem, inCart, removeItem } = useCart();
+    const router = useRouter();
 
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
 
-    /* ——— Callbacks ——— */
     const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
     const handleImageError = useCallback(
@@ -57,18 +57,40 @@ const ProductCard = memo(
         addItem({
           id: producto.id,
           name: producto.nombre,
-          price: parseFloat(producto.precio), // o sin parseFloat si ya es número
+          price: parseFloat(producto.precio),
           image: producto.imagen,
           ...producto,
         });
       }
     }, [addItem, removeItem, inCart, producto]);
-    
 
-    /* ——— Render ——— */
+
+    const handleHover = useCallback(() => {
+      router.load({
+        to: "/market/$productoId",
+        params: { productoId: producto.id.toString() },
+      });
+    }, [router, producto.id]);
+
+    const handleClick = useCallback(() => {
+      router.navigate({
+        to: "/market/$productoId",
+        params: { productoId: producto.id.toString() },
+      });
+    }, [router, producto.id]);
+
     return (
-      <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg group h-full flex flex-col">
-        {/* Imagen */}
+      <div
+        onClick={handleClick}
+        onMouseEnter={handleHover}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleClick();
+        }}
+        className="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg group h-full flex flex-col"
+      >
+
         <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
           {!imageError ? (
             <>
@@ -94,7 +116,6 @@ const ProductCard = memo(
             </>
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400">
-              {/* Ícono genérico */}
               <svg
                 className="w-16 h-16"
                 fill="none"
@@ -118,31 +139,36 @@ const ProductCard = memo(
           )}
         </div>
 
-        {/* Info + botones */}
+
         <div className="p-4 flex-1 flex flex-col">
-          <h3 className="flex font-semibold text-gray-900 mb-4 line-clamp-2 min-h-[2.5rem] justify-center">
+          <h3 className="flex font-semibold text-gray-900 line-clamp-2 min-h-[2.5rem] justify-center">
             {producto.nombre}
           </h3>
 
           <div className="flex mb-4 justify-center">
-            <span className="text-2xl font-bold text-green-600">
+            <span className="text-2xl font-bold text-black">
               ${producto.precio}
             </span>
           </div>
 
           <div className="space-y-2 mt-auto">
-
-
             {producto.disponible && (
               <Button
-              onClick={handleToggleCarrito}
-              variant="outline"
-              className={`w-full border-amber-900 text-amber-900 hover:bg-amber-50 disabled:opacity-60 ${
-                inCart(producto.id) ? "hover:bg-red-400 bg-green-50" : "hover:bg-amber-50"
-              }`}
-            >
-              {inCart(producto.id) ? "Quitar del carrito" : "Agregar al carrito"}
-            </Button>
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleToggleCarrito();
+                }}
+                variant="outline"
+                className={`w-full border-amber-900 text-amber-900 hover:bg-amber-50 disabled:opacity-60 ${
+                  inCart(producto.id)
+                    ? "hover:bg-red-400 bg-green-50"
+                    : "hover:bg-amber-50"
+                }`}
+              >
+                {inCart(producto.id)
+                  ? "Quitar del carrito"
+                  : "Agregar al carrito"}
+              </Button>
             )}
           </div>
         </div>

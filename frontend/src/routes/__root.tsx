@@ -6,7 +6,8 @@ import Footer from '../components/Footer.tsx'
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div className="flex gap-2 justify-center font-libre">
+    <div className='font-libre'>
+      <div className="flex gap-2 justify-center ">
         <NavBar></NavBar>
       </div>
       <div>
@@ -16,8 +17,9 @@ export const Route = createRootRoute({
         <Outlet/>
       </div>
 
-      <div>
+      <div className='mt-10'>
         <Footer></Footer>
+      </div>
       </div>
       <TanStackRouterDevtools />
     </>

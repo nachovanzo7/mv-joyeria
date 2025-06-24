@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useCart } from "react-use-cart";
 import { X } from "lucide-react";
+import { Button } from "./ui/button";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 
 type Props = {
@@ -118,13 +119,14 @@ export default function CartDrawer({ onClose, onCheckout }: Props) {
             </div>
 
             <div className="mt-4 space-y-2">
-              <button
+              <Button
                 onClick={crearPreferencia}
                 className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                variant={"secondary"}
                 disabled={loading}
               >
                 {loading ? "Generando..." : "Generar pago"}
-              </button>
+              </Button>
 
               {preferenceId && (
                 <>
@@ -133,12 +135,13 @@ export default function CartDrawer({ onClose, onCheckout }: Props) {
                 </>
               )}
 
-              <button
+              <Button
                 onClick={emptyCart}
-                className="w-full py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                variant={'destructive'}
+                className="w-full py-2 rounded hover:bg-red-700"
               >
                 Vaciar carrito
-              </button>
+              </Button>
             </div>
           </>
         )}
