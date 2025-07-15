@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,12 +85,13 @@ WSGI_APPLICATION = 'mvshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django_libsql.libsql_backend',
-        'NAME': 'joyeria-mv',
-        'LIBSQL_DATABASE_URL': 'libsql://joyeria-mv-nachovanzo7.aws-us-west-2.turso.io',  # reemplazá con tu URL de Turso
-        'LIBSQL_AUTH_TOKEN': 'libsql://joyeria-mv-nachovanzo7.aws-us-west-2.turso.io',  # si tu base está protegida
+        'NAME': 'turso',
+        'LIBSQL_DATABASE_URL': config('LIBSQL_URL'),
+        'LIBSQL_AUTH_TOKEN': config('LIBSQL_TOKEN', default=''),  # opcional si la base es pública
     }
 }
 
