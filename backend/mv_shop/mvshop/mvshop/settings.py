@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--&e()u(xe36ok+cgtp-%i%ey^!jf65xtuz65%t1hcgi=-1z!an
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'mv-joyeria.onrender.com']
 
 
 # Application definition
