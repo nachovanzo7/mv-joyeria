@@ -86,8 +86,10 @@ WSGI_APPLICATION = 'mvshop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django_libsql.libsql_backend',
+        'NAME': 'joyeria-mv',
+        'LIBSQL_DATABASE_URL': 'libsql://joyeria-mv-nachovanzo7.aws-us-west-2.turso.io',  # reemplazá con tu URL de Turso
+        'LIBSQL_AUTH_TOKEN': 'libsql://joyeria-mv-nachovanzo7.aws-us-west-2.turso.io',  # si tu base está protegida
     }
 }
 
