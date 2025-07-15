@@ -16,3 +16,5 @@ django-debug-toolbar==4.4.6
 gunicorn
 
 mercadopago
+
+django-libsql
