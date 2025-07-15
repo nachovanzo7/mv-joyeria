@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'mvshop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django_libsql.libsql_backend',
+        'ENGINE': 'django_libsql.backends.libsql',
         'NAME': 'turso',
         'LIBSQL_DATABASE_URL': config('LIBSQL_URL'),
         'LIBSQL_AUTH_TOKEN': config('LIBSQL_TOKEN', default=''),  # opcional si la base es pública
