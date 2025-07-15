@@ -13,3 +13,4 @@ python-decouple==3.8
 
 django-debug-toolbar==4.4.6
 
+gunicorn
